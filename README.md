@@ -6,7 +6,8 @@ AI will learn to differentiate objects placed in its "MAP" as good or bad as the
 
 
 Developer Notes:
-"
+
+
 In order to evolve value need millions of simulations running millions of times. Selection has to be by "reproduction" (that which reproduces more becomes more highly represented). 
 
 Successfully finding food means reproduction successful and type is duplicated.
