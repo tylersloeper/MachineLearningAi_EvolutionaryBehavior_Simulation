@@ -46,4 +46,4 @@ Summary:
 
 Ai intelligence will be predetermined, but learning will be done by the AI itself. This is not unlike real life. Intelligence doesnt dramatically change within a single organism, rather it is through generations.
 
-I will explore the idea of the ai self modifying its intelligence through generations at a later date.
+I will explore the idea of the ai itself self modifying its intelligence through generations (like in real life) at a later date.
