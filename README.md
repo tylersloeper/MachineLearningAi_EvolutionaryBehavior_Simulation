@@ -4,6 +4,7 @@ Machine Learning AI.
 Planned Release 1:
 AI will learn to differentiate objects placed in its "MAP" as good or bad as they are related to completing the task of finding "FOOD" (the exit condition). Simulation will be seeded by running 1 million times so that the AI can learn its environment before being observed.
 
+------------------------------------------------------------------------------
 
 Developer Notes:
 
@@ -38,3 +39,11 @@ Give permutations a memory too. -1 per round +number of times encountered for al
 Better performance will come with better wider memory of squares. If its possible to have it automatically add permutations then can expand perceptions 
 
 Ie 3x2 up down 
+
+------------------------------------------------------------------------------
+
+Summary:
+
+Ai intelligence will be predetermined, but learning will be done by the AI itself. This is not unlike real life. Intelligence doesnt dramatically change within a single organism, rather it is through generations.
+
+I will explore the idea of the ai self modifying its intelligence through generations at a later date.
