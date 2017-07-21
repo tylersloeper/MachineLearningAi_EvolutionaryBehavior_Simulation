@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EvolutionaryBehavior_MachineLearningAi.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,16 @@ namespace EvolutionaryBehavior_MachineLearningAi
         static void Main(string[] args)
         {
             int begincountdown = 10;
+            int timeElapsed = 0;
+            Organism organism = new Organism();
+            organism.PositionXY = new int[2];
+            organism.ObjectsSeen = new List<ObjectsEncountered>();
 
-            for(int i =0; i<10; i++)
+            bool victory = false;
+
+
+
+            for (int i =0; i<10; i++)
             {
                 Console.Clear();
                 Console.WriteLine("This is a Machine Learning (AI that learns) simulation. I have modeled the ai after evolution, and learning from past experiences (see comments in code for more information). The Ai will begin knowing nothing and be forced to move in one direction every 1 second. After 60 seconds the map will be recycled and the ai will be punished for not finding 'food'. The goal of the Ai is to learn to navigate an environment to find food. Evolutionary Competition is in the next update. ");
@@ -51,6 +60,8 @@ namespace EvolutionaryBehavior_MachineLearningAi
             int[] OrganismPosition = new int[2]; //[1] =x coordinate. [2] = y coordinate
             OrganismPosition[0] = randomOrg.Next(2, 12);
             OrganismPosition[1] = randomOrg.Next(2, 12);
+            organism.PositionXY[0] = OrganismPosition[0];
+            organism.PositionXY[1] = OrganismPosition[1];
 
             //no overlap
             bool nomatch = false;
@@ -87,18 +98,76 @@ namespace EvolutionaryBehavior_MachineLearningAi
             bool active = true;
             while(active == true)
             {
-                Console.Clear();
+                if(timeElapsed %60 != 0)
+                {
+                    Console.Clear();
 
-                string Direction = Think();
-                //OrganismPosition = MakeAMove(Map_Initial, OrganismPosition, Direction); //when function is completed
-                OrganismPosition = MakeAMove(Map_Initial, OrganismPosition, MoveRandomly());
-                Console.WriteLine("\n"); //additional \n
+                    string Direction = Think();
+                    //OrganismPosition = MakeAMove(Map_Initial, OrganismPosition, Direction); //when function is completed
+                    OrganismPosition = MakeAMove(Map_Initial, OrganismPosition, MoveRandomly());
+                    Console.WriteLine("\n"); //additional \n
 
-                //debug
-                DrawMap(Map_Initial);
-                DrawMapOrganismView(Map_Initial, OrganismPosition);
+                    //debug
+                    DrawMap(Map_Initial);
+                    DrawMapOrganismView(Map_Initial, OrganismPosition);
 
-                System.Threading.Thread.Sleep(1200);
+                    System.Threading.Thread.Sleep(1200);
+                    timeElapsed = timeElapsed + 1;
+
+                    //put victory condition here
+                    ///
+                }
+                else
+                {
+                    //regenerate the map after 60 second. Victory condition failed
+                    {
+                        //generate blank map. Use this for processing
+                        Map_Initial = new String[14, 14];
+                        InstantiateMap(Map_Initial);
+
+                        //Drop Food Randomly
+                        randomFood = new Random();
+                        FoodPosition = new int[2]; //[1] =x coordinate. [2] = y coordinate
+                        FoodPosition[0] = randomFood.Next(2, 12);
+                        FoodPosition[1] = randomFood.Next(2, 12);
+                        Map_Initial[FoodPosition[0], FoodPosition[1]] = "x";
+
+
+                        //Drop Organism Randomly
+                        randomOrg = new Random();
+                        OrganismPosition = new int[2]; //[1] =x coordinate. [2] = y coordinate
+                        OrganismPosition[0] = randomOrg.Next(2, 12);
+                        OrganismPosition[1] = randomOrg.Next(2, 12);
+
+                        //no overlap
+                        nomatch = false;
+                        while (nomatch == false)
+                        {
+                            if (OrganismPosition[0] != FoodPosition[0] && OrganismPosition[1] != FoodPosition[1])
+                            {
+                                Map_Initial[OrganismPosition[0], OrganismPosition[1]] = "+";
+                                nomatch = true;
+                            }
+                            else
+                            {
+                                OrganismPosition[0] = randomOrg.Next(2, 12);
+                                OrganismPosition[1] = randomOrg.Next(2, 12);
+                            }
+                        }
+                        timeElapsed = timeElapsed + 1;
+                    }
+
+                    //weight all objects seen for failure
+                    if(organism.ObjectsSeen != null)
+                    {
+                        foreach(var Object in organism.ObjectsSeen)
+                            {
+                            Object.ObjectValue = Object.ObjectValue - 1;
+                            }
+                    }
+
+                }
+
             }
 
 
